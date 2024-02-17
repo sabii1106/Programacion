@@ -1061,7 +1061,6 @@ public class VentanaCatalogo extends JFrame {
 
 }
 
-
 public class VentanaLamparaAcrilico extends JFrame {
     private CarritoDeCompras carrito;
 
@@ -1070,51 +1069,77 @@ public class VentanaLamparaAcrilico extends JFrame {
         this.setSize(900, 700);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getContentPane().setBackground(new Color(0, 51, 102));
-        this.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-       
+        getContentPane().setBackground(new Color(0, 51, 102)); // Establecer color de fondo del contenedor principal
 
         carrito = new CarritoDeCompras();
+
+        // Crear el panel de botones en la parte superior derecha
+        JPanel menuPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton botonMenuPrincipal = new JButton("Menú Principal");
+        botonMenuPrincipal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Sistema sistema2 = new Sistema();
+                sistema2.setVisible(true);
+                dispose();
+            }
+        });
+        menuPanel.add(botonMenuPrincipal);
+        this.add(menuPanel, BorderLayout.NORTH); // Agregar el panel de botones en la parte norte
+
+        // Crear el panel central con las lámparas
+        JPanel centralPanel = new JPanel();
+        centralPanel.setLayout(new BoxLayout(centralPanel, BoxLayout.Y_AXIS));
+        centralPanel.setBackground(new Color(0, 51, 102)); // Establecer color de fondo del panel central
 
         // Spiderman
         JLabel labelSpiderman = createImageLabel("media/lamparaSpiderman.jpg");
         JButton botonSpiderman = createAddToCartButton("Lampara Spiderman", 20.0);
-        this.add(createImagePanelWithButton(labelSpiderman, botonSpiderman));
-        this.add(Box.createVerticalStrut(10)); 
+        centralPanel.add(createImagePanelWithButton(labelSpiderman, botonSpiderman));
+        centralPanel.add(Box.createVerticalStrut(10));
 
         // Logo
         JLabel labelLogo = createImageLabel("media/lamparaLogo.jpg");
         JButton botonLogo = createAddToCartButton("Lampara Logo", 20.0);
-        this.add(createImagePanelWithButton(labelLogo, botonLogo));
-        this.add(Box.createVerticalStrut(10));
+        centralPanel.add(createImagePanelWithButton(labelLogo, botonLogo));
+        centralPanel.add(Box.createVerticalStrut(10));
 
         // Corazones
         JLabel labelCorazones = createImageLabel("media/lamparaCorazones.jpg");
         JButton botonCorazones = createAddToCartButton("Lampara Corazones", 20.0);
-        this.add(createImagePanelWithButton(labelCorazones, botonCorazones));
+        centralPanel.add(createImagePanelWithButton(labelCorazones, botonCorazones));
 
-        // Botón pagar
+        JScrollPane scrollPane = new JScrollPane(centralPanel); // Agregar un JScrollPane para manejar el desplazamiento si es necesario
+        this.add(scrollPane, BorderLayout.CENTER); // Agregar el panel central en el centro
+
+        // Crear el panel de botones en la parte inferior
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonsPanel.setBackground(new Color(0, 51, 102)); // Establecer color de fondo del panel de botones
+
         JButton botonPagar = new JButton("Ver carrito");
-        botonPagar.setBackground(Color.WHITE);
         botonPagar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 carrito.mostrarCarrito();
             }
         });
-        this.add(botonPagar);
+        buttonsPanel.add(botonPagar);
+
         JButton botonMenu = new JButton("Menú");
-        botonMenu.setBackground(Color.WHITE);
         botonMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
                 Sistema.VentanaCatalogo ventanaCatalogo = new Sistema.VentanaCatalogo();
-				ventanaCatalogo.setVisible(true);
-				dispose();
+                ventanaCatalogo.setVisible(true);
+                dispose();
             }
         });
-        this.add(botonMenu);
+        buttonsPanel.add(botonMenu);
+
+        bottomPanel.add(buttonsPanel, BorderLayout.CENTER);
+
+        this.add(bottomPanel, BorderLayout.SOUTH); // Agregar el panel de botones en la parte sur
     }
 
     private JLabel createImageLabel(String imagePath) {
@@ -1128,7 +1153,7 @@ public class VentanaLamparaAcrilico extends JFrame {
 
         return label;
     }
-    
+
     private JButton createAddToCartButton(String nombre, double precio) {
         JButton button = new JButton("Añadir al carrito");
 
@@ -1151,7 +1176,7 @@ public class VentanaLamparaAcrilico extends JFrame {
 
     private JPanel createImagePanelWithButton(JLabel imageLabel, JButton addToCartButton) {
         JPanel panel = new JPanel();
-        panel.setBackground(new Color(0, 51, 102));  // Agrega esta línea para establecer el fondo blanco
+        panel.setBackground(new Color(0, 51, 102));  // Establecer color de fondo del panel
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.add(addToCartButton);
@@ -1160,72 +1185,86 @@ public class VentanaLamparaAcrilico extends JFrame {
 
         return panel;
     }
-
-    
-    
-
-
 }
-
 
 public class VentanaRecuerdoAcrilico extends JFrame {
     private CarritoDeCompras carrito;
 
     public VentanaRecuerdoAcrilico() {
         super("Recuerdos de acrílico");
-        this.setSize(900, 700);
+        this.setSize(900, 720);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Cambiar el color de fondo a blanco
-        this.getContentPane().setBackground(new Color(0, 51, 102));
-
-        this.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        this.getContentPane().setBackground(new Color(0, 51, 102)); // Establecer color de fondo del contenedor principal
+        this.setLayout(new BorderLayout());
 
         carrito = new CarritoDeCompras();
 
+        // Crear el panel de botones en la parte superior derecha
+        JPanel menuPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton botonMenuPrincipal = new JButton("Menú Principal");
+        botonMenuPrincipal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Sistema sistema2 = new Sistema();
+                sistema2.setVisible(true);
+                dispose();
+            }
+        });
+        menuPanel.add(botonMenuPrincipal);
+        this.add(menuPanel, BorderLayout.NORTH); // Agregar el panel de botones en la parte norte
+
+        // Crear el panel central con las lámparas
+        JPanel centralPanel = new JPanel();
+        centralPanel.setLayout(new BoxLayout(centralPanel, BoxLayout.Y_AXIS));
+        centralPanel.setBackground(new Color(0, 51, 102)); // Establecer color de fondo del panel central
+
+        // Crear los elementos de la ventana
         JLabel labelBautizo = createImageLabel("media/recuerdoBautizo.jpg");
         JButton botonBautizo = createAddToCartButton("Recuerdo de Bautizo", 3.0);
-        this.add(createImagePanelWithButton(labelBautizo, botonBautizo));
-
-        this.add(Box.createVerticalStrut(10));
+        centralPanel.add(createImagePanelWithButton(labelBautizo, botonBautizo));
+        centralPanel.add(Box.createVerticalStrut(10));
 
         JLabel labelBoda = createImageLabel("media/recuerdoBoda.jpg");
         JButton botonBoda = createAddToCartButton("Recuerdo de Boda", 3.0);
-        this.add(createImagePanelWithButton(labelBoda, botonBoda));
-
-        this.add(Box.createVerticalStrut(10));
+        centralPanel.add(createImagePanelWithButton(labelBoda, botonBoda));
+        centralPanel.add(Box.createVerticalStrut(10));
 
         JLabel labelGrado = createImageLabel("media/recuerdoGrado.jpg");
         JButton botonGrado = createAddToCartButton("Recuerdo de Grado", 3.0);
-        this.add(createImagePanelWithButton(labelGrado, botonGrado));
+        centralPanel.add(createImagePanelWithButton(labelGrado, botonGrado));
 
-        // Cambiar el color del botón a blanco
-        
+        JScrollPane scrollPane = new JScrollPane(centralPanel); // Agregar un JScrollPane para manejar el desplazamiento si es necesario
+        this.add(scrollPane, BorderLayout.CENTER); // Agregar el panel central en el centro
 
-        // Cambiar el color del botón a blanco
+        // Crear el panel de botones en la parte inferior
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonsPanel.setBackground(new Color(0, 51, 102)); // Establecer color de fondo del panel de botones
+
         JButton botonPagar = new JButton("Ver carrito");
-        botonPagar.setBackground(Color.WHITE);
         botonPagar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 carrito.mostrarCarrito();
             }
         });
-        this.add(botonPagar);
-        
+        buttonsPanel.add(botonPagar);
+
         JButton botonMenu = new JButton("Menú");
-        botonMenu.setBackground(Color.WHITE);
         botonMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
                 Sistema.VentanaCatalogo ventanaCatalogo = new Sistema.VentanaCatalogo();
-				ventanaCatalogo.setVisible(true);
-				dispose();
+                ventanaCatalogo.setVisible(true);
+                dispose();
             }
         });
-        this.add(botonMenu);
+        buttonsPanel.add(botonMenu);
+
+        bottomPanel.add(buttonsPanel, BorderLayout.CENTER);
+
+        this.add(bottomPanel, BorderLayout.SOUTH); // Agregar el panel de botones en la parte sur
     }
 
     private JLabel createImageLabel(String imagePath) {
@@ -1262,7 +1301,7 @@ public class VentanaRecuerdoAcrilico extends JFrame {
 
     private JPanel createImagePanelWithButton(JLabel imageLabel, JButton addToCartButton) {
         JPanel panel = new JPanel();
-        panel.setBackground(new Color(0, 51, 102));  // Agrega esta línea para establecer el fondo blanco
+        panel.setBackground(new Color(0, 51, 102));  // Establecer color de fondo del panel
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.add(addToCartButton);
@@ -1271,65 +1310,88 @@ public class VentanaRecuerdoAcrilico extends JFrame {
 
         return panel;
     }
-
 }
-
 
 public class VentanaRecuerdoMDF extends JFrame {
     private CarritoDeCompras carrito;
 
     public VentanaRecuerdoMDF() {
-    	super("Recuerdos de MDF");
-        this.setSize(900, 700);
+        super("Recuerdos de MDF");
+        this.setSize(900, 720);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.getContentPane().setBackground(new Color(0, 51, 102));
-        this.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        this.getContentPane().setBackground(new Color(0, 51, 102)); // Establecer color de fondo del contenedor principal
+        this.setLayout(new BorderLayout());
 
         carrito = new CarritoDeCompras();
 
+        // Crear el panel de botones en la parte superior derecha
+        JPanel menuPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton botonMenuPrincipal = new JButton("Menú Principal");
+        botonMenuPrincipal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Sistema sistema2 = new Sistema();
+                sistema2.setVisible(true);
+                dispose();
+            }
+        });
+        menuPanel.add(botonMenuPrincipal);
+        this.add(menuPanel, BorderLayout.NORTH); // Agregar el panel de botones en la parte norte
+
+        // Crear el panel central con los recuerdos de MDF
+        JPanel centralPanel = new JPanel();
+        centralPanel.setLayout(new BoxLayout(centralPanel, BoxLayout.Y_AXIS));
+        centralPanel.setBackground(new Color(0, 51, 102)); // Establecer color de fondo del panel central
+
+        // Crear los elementos de la ventana
         JLabel labelBautizoMDF = createImageLabel("media/recuerdoBautizoMDF.jpg");
         JButton botonBautizoMDF = createAddToCartButton("Recuerdo de Bautizo MDF", 2.0);
-        this.add(createImagePanelWithButton(labelBautizoMDF, botonBautizoMDF));
-
-        this.add(Box.createVerticalStrut(10)); 
+        centralPanel.add(createImagePanelWithButton(labelBautizoMDF, botonBautizoMDF));
+        centralPanel.add(Box.createVerticalStrut(10));
 
         JLabel labelBodaMDF = createImageLabel("media/recuerdoBodaMDF.jpg");
         JButton botonBodaMDF = createAddToCartButton("Recuerdo de Boda MDF", 2.0);
-        this.add(createImagePanelWithButton(labelBodaMDF, botonBodaMDF));
-
-        this.add(Box.createVerticalStrut(10)); 
+        centralPanel.add(createImagePanelWithButton(labelBodaMDF, botonBodaMDF));
+        centralPanel.add(Box.createVerticalStrut(10));
 
         JLabel labelGradoMDF = createImageLabel("media/recuerdoGradoMDF.jpg");
         JButton botonGradoMDF = createAddToCartButton("Recuerdo de Grado MDF", 2.0);
-        this.add(createImagePanelWithButton(labelGradoMDF, botonGradoMDF));
-        
-        
-        
+        centralPanel.add(createImagePanelWithButton(labelGradoMDF, botonGradoMDF));
+
+        JScrollPane scrollPane = new JScrollPane(centralPanel); // Agregar un JScrollPane para manejar el desplazamiento si es necesario
+        this.add(scrollPane, BorderLayout.CENTER); // Agregar el panel central en el centro
+
+        // Crear el panel de botones en la parte inferior
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonsPanel.setBackground(new Color(0, 51, 102)); // Establecer color de fondo del panel de botones
+
         JButton botonPagar = new JButton("Ver carrito");
-        botonPagar.setBackground(Color.WHITE);
         botonPagar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 carrito.mostrarCarrito();
             }
         });
-        this.add(botonPagar);
-        
+        buttonsPanel.add(botonPagar);
+
         JButton botonMenu = new JButton("Menú");
-        botonMenu.setBackground(Color.WHITE);
         botonMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
                 Sistema.VentanaCatalogo ventanaCatalogo = new Sistema.VentanaCatalogo();
-				ventanaCatalogo.setVisible(true);
-				dispose();
+                ventanaCatalogo.setVisible(true);
+                dispose();
             }
         });
-        this.add(botonMenu);
+        buttonsPanel.add(botonMenu);
+
+        bottomPanel.add(buttonsPanel, BorderLayout.CENTER);
+
+        this.add(bottomPanel, BorderLayout.SOUTH); // Agregar el panel de botones en la parte sur
     }
-    
+
     private JLabel createImageLabel(String imagePath) {
         ImageIcon originalIcon = new ImageIcon(imagePath);
         Image scaledImage = originalIcon.getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT);
@@ -1361,11 +1423,10 @@ public class VentanaRecuerdoMDF extends JFrame {
 
         return button;
     }
-    
 
     private JPanel createImagePanelWithButton(JLabel imageLabel, JButton addToCartButton) {
         JPanel panel = new JPanel();
-        panel.setBackground(new Color(0, 51, 102));  // Agrega esta línea para establecer el fondo blanco
+        panel.setBackground(new Color(0, 51, 102));  // Establecer color de fondo del panel
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.add(addToCartButton);
@@ -1374,40 +1435,62 @@ public class VentanaRecuerdoMDF extends JFrame {
 
         return panel;
     }
-
 }
 
 public class VentanaLlaveros extends JFrame {
     private CarritoDeCompras carrito;
 
     public VentanaLlaveros() {
-    	super("Llaveros");
-        this.setSize(900, 700);
+        super("Llaveros");
+        this.setSize(900, 720);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setBackground(new Color(0, 51, 102));
-        this.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        this.setLayout(new BorderLayout()); // Cambiar el layout a BorderLayout para organizar los elementos más fácilmente
 
         carrito = new CarritoDeCompras();
 
+        // Crear el panel de botones en la parte superior derecha
+        JPanel menuPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton botonMenuPrincipal = new JButton("Menú Principal");
+        botonMenuPrincipal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Sistema sistema2 = new Sistema();
+                sistema2.setVisible(true);
+                dispose();
+            }
+        });
+        menuPanel.add(botonMenuPrincipal);
+        this.add(menuPanel, BorderLayout.NORTH); // Agregar el panel de botones en la parte norte
+
+        // Crear el panel central con los llaveros
+        JPanel centralPanel = new JPanel();
+        centralPanel.setLayout(new BoxLayout(centralPanel, BoxLayout.Y_AXIS));
+        centralPanel.setBackground(new Color(0, 51, 102)); // Establecer color de fondo del panel central
+
+        // Crear los elementos de la ventana
         JLabel labelPokemon = createImageLabel("media/llaveroPokemon.jpg");
         JButton botonPokemon = createAddToCartButton("Llaveros Pokemon", 2.0);
-        this.add(createImagePanelWithButton(labelPokemon, botonPokemon));
-
-        this.add(Box.createVerticalStrut(10)); 
+        centralPanel.add(createImagePanelWithButton(labelPokemon, botonPokemon));
+        centralPanel.add(Box.createVerticalStrut(10));
 
         JLabel labelAmigos= createImageLabel("media/llaveroAmigos.jpg");
         JButton botonAmigos = createAddToCartButton("Llaveros Amigos", 2.0);
-        this.add(createImagePanelWithButton(labelAmigos, botonAmigos));
-
-        this.add(Box.createVerticalStrut(10)); 
+        centralPanel.add(createImagePanelWithButton(labelAmigos, botonAmigos));
+        centralPanel.add(Box.createVerticalStrut(10));
 
         JLabel labelVirgen = createImageLabel("media/llaveroVirgen.jpg");
         JButton botonVirgen = createAddToCartButton("Llavero Virgen", 2.0);
-        this.add(createImagePanelWithButton(labelVirgen, botonVirgen));
-        
-       
-        
+        centralPanel.add(createImagePanelWithButton(labelVirgen, botonVirgen));
+
+        JScrollPane scrollPane = new JScrollPane(centralPanel); // Agregar un JScrollPane para manejar el desplazamiento si es necesario
+        this.add(scrollPane, BorderLayout.CENTER); // Agregar el panel central en el centro
+
+        // Crear el panel de botones en la parte inferior
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        bottomPanel.setBackground(new Color(0, 51, 102)); // Establecer color de fondo del panel de botones
+
         JButton botonPagar = new JButton("Ver carrito");
         botonPagar.setBackground(Color.WHITE);
         botonPagar.addActionListener(new ActionListener() {
@@ -1416,20 +1499,21 @@ public class VentanaLlaveros extends JFrame {
                 carrito.mostrarCarrito();
             }
         });
-        this.add(botonPagar);
-        
+        bottomPanel.add(botonPagar);
+
         JButton botonMenu = new JButton("Menú");
         botonMenu.setBackground(Color.WHITE);
         botonMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
                 Sistema.VentanaCatalogo ventanaCatalogo = new Sistema.VentanaCatalogo();
-				ventanaCatalogo.setVisible(true);
-				dispose();
+                ventanaCatalogo.setVisible(true);
+                dispose();
             }
         });
-        this.add(botonMenu);
+        bottomPanel.add(botonMenu);
+
+        this.add(bottomPanel, BorderLayout.SOUTH); // Agregar el panel de botones en la parte sur
     }
 
     private JLabel createImageLabel(String imagePath) {
@@ -1445,21 +1529,28 @@ public class VentanaLlaveros extends JFrame {
     }
 
     private JButton createAddToCartButton(String nombre, double precio) {
-    	JButton button = new JButton("Añadir al carrito");
+        JButton button = new JButton("Añadir al carrito");
+
+        // Establecer el fondo y el color del texto explícitamente
+        button.setContentAreaFilled(false);
+        button.setOpaque(true);
+        button.setBackground(Color.WHITE);
+        button.setForeground(Color.BLACK);
+
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 carrito.agregarProducto(new Producto(nombre, precio));
                 System.out.println(nombre + " añadido al carrito");
             }
         });
+
         return button;
     }
 
     private JPanel createImagePanelWithButton(JLabel imageLabel, JButton addToCartButton) {
         JPanel panel = new JPanel();
-        panel.setBackground(new Color(0, 51, 102));  // Agrega esta línea para establecer el fondo blanco
+        panel.setBackground(new Color(0, 51, 102));  // Establecer color de fondo del panel
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.add(addToCartButton);
@@ -1468,39 +1559,62 @@ public class VentanaLlaveros extends JFrame {
 
         return panel;
     }
-
 }
 
 public class VentanaAlcancia extends JFrame {
     private CarritoDeCompras carrito;
 
     public VentanaAlcancia() {
-    	super("Llaveros");
-        this.setSize(900, 700);
+        super("Alcancías");
+        this.setSize(900, 720);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        this.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        this.setLayout(new BorderLayout()); // Cambiar el layout a BorderLayout para organizar los elementos más fácilmente
         this.getContentPane().setBackground(new Color(0, 51, 102));
+
         carrito = new CarritoDeCompras();
 
+        // Crear el panel de botones en la parte superior derecha
+        JPanel menuPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton botonMenuPrincipal = new JButton("Menú Principal");
+        botonMenuPrincipal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Sistema sistema2 = new Sistema();
+                sistema2.setVisible(true);
+                dispose();
+            }
+        });
+        menuPanel.add(botonMenuPrincipal);
+        this.add(menuPanel, BorderLayout.NORTH); // Agregar el panel de botones en la parte norte
+
+        // Crear el panel central con las alcancías
+        JPanel centralPanel = new JPanel();
+        centralPanel.setLayout(new BoxLayout(centralPanel, BoxLayout.Y_AXIS));
+        centralPanel.setBackground(new Color(0, 51, 102)); // Establecer color de fondo del panel central
+
+        // Crear los elementos de la ventana
         JLabel labelGato = createImageLabel("media/alcanciaGato.jpg");
         JButton botonGato = createAddToCartButton("Alcancía de Gato", 12.0);
-        this.add(createImagePanelWithButton(labelGato, botonGato));
+        centralPanel.add(createImagePanelWithButton(labelGato, botonGato));
+        centralPanel.add(Box.createVerticalStrut(10));
 
-        this.add(Box.createVerticalStrut(10)); 
-
-        JLabel labelJuego= createImageLabel("media/alcanciaJuego.jpg");
+        JLabel labelJuego = createImageLabel("media/alcanciaJuego.jpg");
         JButton botonJuego = createAddToCartButton("Alcancía de la Suerte", 10.0);
-        this.add(createImagePanelWithButton(labelJuego, botonJuego));
-
-        this.add(Box.createVerticalStrut(10)); 
+        centralPanel.add(createImagePanelWithButton(labelJuego, botonJuego));
+        centralPanel.add(Box.createVerticalStrut(10));
 
         JLabel labelSencilla = createImageLabel("media/alcanciaSencilla.jpg");
-        JButton botonSencilla = createAddToCartButton("Alcancia con acrilico", 5.0);
-        this.add(createImagePanelWithButton(labelSencilla, botonSencilla));
-              
-       
+        JButton botonSencilla = createAddToCartButton("Alcancia con acrílico", 5.0);
+        centralPanel.add(createImagePanelWithButton(labelSencilla, botonSencilla));
+
+        JScrollPane scrollPane = new JScrollPane(centralPanel); // Agregar un JScrollPane para manejar el desplazamiento si es necesario
+        this.add(scrollPane, BorderLayout.CENTER); // Agregar el panel central en el centro
+
+        // Crear el panel de botones en la parte inferior
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        bottomPanel.setBackground(new Color(0, 51, 102)); // Establecer color de fondo del panel de botones
+
         JButton botonPagar = new JButton("Ver carrito");
         botonPagar.setBackground(Color.WHITE);
         botonPagar.addActionListener(new ActionListener() {
@@ -1509,20 +1623,21 @@ public class VentanaAlcancia extends JFrame {
                 carrito.mostrarCarrito();
             }
         });
-        this.add(botonPagar);
-        
+        bottomPanel.add(botonPagar);
+
         JButton botonMenu = new JButton("Menú");
         botonMenu.setBackground(Color.WHITE);
         botonMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
                 Sistema.VentanaCatalogo ventanaCatalogo = new Sistema.VentanaCatalogo();
-				ventanaCatalogo.setVisible(true);
-				dispose();
+                ventanaCatalogo.setVisible(true);
+                dispose();
             }
         });
-        this.add(botonMenu);
+        bottomPanel.add(botonMenu);
+
+        this.add(bottomPanel, BorderLayout.SOUTH); // Agregar el panel de botones en la parte sur
     }
 
     private JLabel createImageLabel(String imagePath) {
@@ -1559,7 +1674,7 @@ public class VentanaAlcancia extends JFrame {
 
     private JPanel createImagePanelWithButton(JLabel imageLabel, JButton addToCartButton) {
         JPanel panel = new JPanel();
-        panel.setBackground(new Color(0, 51, 102));  // Agrega esta línea para establecer el fondo blanco
+        panel.setBackground(new Color(0, 51, 102));  // Establecer color de fondo del panel
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.add(addToCartButton);
@@ -1569,38 +1684,60 @@ public class VentanaAlcancia extends JFrame {
         return panel;
     }
 }
-
 public class VentanaLibretas extends JFrame {
     private CarritoDeCompras carrito;
 
     public VentanaLibretas() {
-    	super("Libretas");
-        this.setSize(900, 700);
+        super("Libretas");
+        this.setSize(900, 720);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        this.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        this.setLayout(new BorderLayout()); // Cambiar el layout a BorderLayout para organizar los elementos más fácilmente
         this.getContentPane().setBackground(new Color(0, 51, 102));
+
         carrito = new CarritoDeCompras();
 
+        // Crear el panel de botones en la parte superior derecha
+        JPanel menuPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton botonMenuPrincipal = new JButton("Menú Principal");
+        botonMenuPrincipal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Sistema sistema2 = new Sistema();
+                sistema2.setVisible(true);
+                dispose();
+            }
+        });
+        menuPanel.add(botonMenuPrincipal);
+        this.add(menuPanel, BorderLayout.NORTH); // Agregar el panel de botones en la parte norte
+
+        // Crear el panel central con las libretas
+        JPanel centralPanel = new JPanel();
+        centralPanel.setLayout(new BoxLayout(centralPanel, BoxLayout.Y_AXIS));
+        centralPanel.setBackground(new Color(0, 51, 102)); // Establecer color de fondo del panel central
+
+        // Crear los elementos de la ventana
         JLabel labelBreaking = createImageLabel("media/libretaBreaking.jpg");
         JButton botonBreaking = createAddToCartButton("Libreta Breaking Bad", 10.0);
-        this.add(createImagePanelWithButton(labelBreaking, botonBreaking));
+        centralPanel.add(createImagePanelWithButton(labelBreaking, botonBreaking));
+        centralPanel.add(Box.createVerticalStrut(10));
 
-        this.add(Box.createVerticalStrut(10)); 
-
-        JLabel labelCitas= createImageLabel("media/libretaCitas.jpg");
+        JLabel labelCitas = createImageLabel("media/libretaCitas.jpg");
         JButton botonCitas = createAddToCartButton("Libreta 100 Citas", 10.0);
-        this.add(createImagePanelWithButton(labelCitas, botonCitas));
-
-        this.add(Box.createVerticalStrut(10)); 
+        centralPanel.add(createImagePanelWithButton(labelCitas, botonCitas));
+        centralPanel.add(Box.createVerticalStrut(10));
 
         JLabel labelSimpsons = createImageLabel("media/libretaSimpsons.jpg");
         JButton botonSimpsons = createAddToCartButton("Libreta Simpsons", 10.0);
-        this.add(createImagePanelWithButton(labelSimpsons, botonSimpsons));
-        
-        
-        
+        centralPanel.add(createImagePanelWithButton(labelSimpsons, botonSimpsons));
+
+        JScrollPane scrollPane = new JScrollPane(centralPanel); // Agregar un JScrollPane para manejar el desplazamiento si es necesario
+        this.add(scrollPane, BorderLayout.CENTER); // Agregar el panel central en el centro
+
+        // Crear el panel de botones en la parte inferior
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        bottomPanel.setBackground(new Color(0, 51, 102)); // Establecer color de fondo del panel de botones
+
         JButton botonPagar = new JButton("Ver carrito");
         botonPagar.setBackground(Color.WHITE);
         botonPagar.addActionListener(new ActionListener() {
@@ -1609,20 +1746,21 @@ public class VentanaLibretas extends JFrame {
                 carrito.mostrarCarrito();
             }
         });
-        this.add(botonPagar);
-        
+        bottomPanel.add(botonPagar);
+
         JButton botonMenu = new JButton("Menú");
         botonMenu.setBackground(Color.WHITE);
         botonMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
                 Sistema.VentanaCatalogo ventanaCatalogo = new Sistema.VentanaCatalogo();
-				ventanaCatalogo.setVisible(true);
-				dispose();
+                ventanaCatalogo.setVisible(true);
+                dispose();
             }
         });
-        this.add(botonMenu);
+        bottomPanel.add(botonMenu);
+
+        this.add(bottomPanel, BorderLayout.SOUTH); // Agregar el panel de botones en la parte sur
     }
 
     private JLabel createImageLabel(String imagePath) {
@@ -1659,7 +1797,7 @@ public class VentanaLibretas extends JFrame {
 
     private JPanel createImagePanelWithButton(JLabel imageLabel, JButton addToCartButton) {
         JPanel panel = new JPanel();
-        panel.setBackground(new Color(0, 51, 102));  // Agrega esta línea para establecer el fondo blanco
+        panel.setBackground(new Color(0, 51, 102));  // Establecer color de fondo del panel
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.add(addToCartButton);
@@ -1668,39 +1806,62 @@ public class VentanaLibretas extends JFrame {
 
         return panel;
     }
-
 }
 
 public class VentanaPortarretratos extends JFrame {
     private CarritoDeCompras carrito;
 
     public VentanaPortarretratos() {
-    	super("Libretas");
-        this.setSize(900, 700);
+        super("Portarretratos");
+        this.setSize(900, 720);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setBackground(new Color(0, 51, 102));
-        this.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        this.setLayout(new BorderLayout()); // Cambiar el layout a BorderLayout para organizar los elementos más fácilmente
 
         carrito = new CarritoDeCompras();
 
+        // Crear el panel de botones en la parte superior derecha
+        JPanel menuPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton botonMenuPrincipal = new JButton("Menú Principal");
+        botonMenuPrincipal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Sistema sistema2 = new Sistema();
+                sistema2.setVisible(true);
+                dispose();
+            }
+        });
+        menuPanel.add(botonMenuPrincipal);
+        this.add(menuPanel, BorderLayout.NORTH); // Agregar el panel de botones en la parte norte
+
+        // Crear el panel central con los portarretratos
+        JPanel centralPanel = new JPanel();
+        centralPanel.setLayout(new BoxLayout(centralPanel, BoxLayout.Y_AXIS));
+        centralPanel.setBackground(new Color(0, 51, 102)); // Establecer color de fondo del panel central
+
+        // Crear los elementos de la ventana
         JLabel labelLove = createImageLabel("media/portaLove.jpg");
         JButton botonLove = createAddToCartButton("Portarretrato Love", 5.0);
-        this.add(createImagePanelWithButton(labelLove, botonLove));
+        centralPanel.add(createImagePanelWithButton(labelLove, botonLove));
+        centralPanel.add(Box.createVerticalStrut(10));
 
-        this.add(Box.createVerticalStrut(10)); 
-
-        JLabel labelPapa= createImageLabel("media/portaPapa.jpg");
+        JLabel labelPapa = createImageLabel("media/portaPapa.jpg");
         JButton botonPapa = createAddToCartButton("Portarretrato día del padre", 15.0);
-        this.add(createImagePanelWithButton(labelPapa, botonPapa));
-
-        this.add(Box.createVerticalStrut(10)); 
+        centralPanel.add(createImagePanelWithButton(labelPapa, botonPapa));
+        centralPanel.add(Box.createVerticalStrut(10));
 
         JLabel labelPareja = createImageLabel("media/portaPareja.jpg");
         JButton botonPareja = createAddToCartButton("Portarretrato para pareja", 15.0);
-        this.add(createImagePanelWithButton(labelPareja, botonPareja));
-              
-        
+        centralPanel.add(createImagePanelWithButton(labelPareja, botonPareja));
+
+        JScrollPane scrollPane = new JScrollPane(centralPanel); // Agregar un JScrollPane para manejar el desplazamiento si es necesario
+        this.add(scrollPane, BorderLayout.CENTER); // Agregar el panel central en el centro
+
+        // Crear el panel de botones en la parte inferior
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        bottomPanel.setBackground(new Color(0, 51, 102)); // Establecer color de fondo del panel de botones
+
         JButton botonPagar = new JButton("Ver carrito");
         botonPagar.setBackground(Color.WHITE);
         botonPagar.addActionListener(new ActionListener() {
@@ -1709,21 +1870,21 @@ public class VentanaPortarretratos extends JFrame {
                 carrito.mostrarCarrito();
             }
         });
-        this.add(botonPagar);
-        
+        bottomPanel.add(botonPagar);
+
         JButton botonMenu = new JButton("Menú");
         botonMenu.setBackground(Color.WHITE);
         botonMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
                 Sistema.VentanaCatalogo ventanaCatalogo = new Sistema.VentanaCatalogo();
-				ventanaCatalogo.setVisible(true);
-				dispose();
+                ventanaCatalogo.setVisible(true);
+                dispose();
             }
         });
-        this.add(botonMenu);
-        
+        bottomPanel.add(botonMenu);
+
+        this.add(bottomPanel, BorderLayout.SOUTH); // Agregar el panel de botones en la parte sur
     }
 
     private JLabel createImageLabel(String imagePath) {
@@ -1760,7 +1921,7 @@ public class VentanaPortarretratos extends JFrame {
 
     private JPanel createImagePanelWithButton(JLabel imageLabel, JButton addToCartButton) {
         JPanel panel = new JPanel();
-        panel.setBackground(new Color(0, 51, 102));  // Agrega esta línea para establecer el fondo blanco
+        panel.setBackground(new Color(0, 51, 102));  // Establecer color de fondo del panel
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.add(addToCartButton);
@@ -1769,7 +1930,6 @@ public class VentanaPortarretratos extends JFrame {
 
         return panel;
     }
-
 }
 
 public class VentanaCajasLetras extends JFrame {
@@ -1777,7 +1937,7 @@ public class VentanaCajasLetras extends JFrame {
 
     public VentanaCajasLetras() {
         super("Cajas de Letras");
-        this.setSize(600, 400);
+        this.setSize(600, 420);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setBackground(new Color(0, 51, 102));
@@ -1795,7 +1955,7 @@ public class VentanaCajasLetras extends JFrame {
         filaPanel.add(createImagePanel(labelImagen2));
         filaPanel.add(createImagePanel(labelImagen3));
         this.add(filaPanel);
-        
+
         JLabel mensajeLabel = new JLabel("Ingrese la Letra o número que desea en la caja:");
         mensajeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         mensajeLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
@@ -1806,7 +1966,6 @@ public class VentanaCajasLetras extends JFrame {
         JButton botonAgregarAlCarrito = new JButton("Añadir al carrito");
         botonAgregarAlCarrito.setBackground(Color.WHITE);
         botonAgregarAlCarrito.setForeground(Color.BLACK);
-
         botonAgregarAlCarrito.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -1814,24 +1973,10 @@ public class VentanaCajasLetras extends JFrame {
                 System.out.println("Cajas de Letras añadido al carrito");
             }
         });
+        JPanel centroPanelAgregarAlCarrito = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        centroPanelAgregarAlCarrito.add(botonAgregarAlCarrito);
+        this.add(centroPanelAgregarAlCarrito);
 
-        JPanel centroPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        centroPanel.add(botonAgregarAlCarrito);
-        this.add(centroPanel);
-
-        JButton botonMenu = new JButton("Menú");
-        botonMenu.setBackground(Color.WHITE);
-        botonMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	
-                Sistema.VentanaCatalogo ventanaCatalogo = new Sistema.VentanaCatalogo();
-				ventanaCatalogo.setVisible(true);
-				dispose();
-            }
-        });
-        this.add(botonMenu);
-        
         JButton botonPagar = new JButton("Ver carrito");
         botonPagar.setBackground(Color.WHITE);
         botonPagar.addActionListener(new ActionListener() {
@@ -1840,9 +1985,42 @@ public class VentanaCajasLetras extends JFrame {
                 carrito.mostrarCarrito();
             }
         });
-        JPanel centroPanel1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        centroPanel1.add(botonPagar);
-        this.add(centroPanel1);
+        JPanel centroPanelVerCarrito = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        centroPanelVerCarrito.add(botonPagar);
+        this.add(centroPanelVerCarrito);
+
+        JButton botonMenu = new JButton("Menú");
+        botonMenu.setBackground(Color.WHITE);
+        botonMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Sistema.VentanaCatalogo ventanaCatalogo = new Sistema.VentanaCatalogo();
+                ventanaCatalogo.setVisible(true);
+                dispose();
+            }
+        });
+        JPanel centroPanelMenu = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        centroPanelMenu.add(botonMenu);
+        this.add(centroPanelMenu);
+
+        // Botón Menú Principal al final
+        JButton botonMenuPrincipal = new JButton("Menú Principal");
+        botonMenuPrincipal.setBackground(Color.WHITE);
+        botonMenuPrincipal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Sistema sistema2 = new Sistema();
+                sistema2.setVisible(true);
+                dispose();
+            }
+        });
+        JPanel centroPanelMenuPrincipal = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        centroPanelMenuPrincipal.add(botonMenuPrincipal);
+        this.add(Box.createVerticalGlue()); // Espacio entre los botones y el centro
+        this.add(centroPanelMenuPrincipal);
+
+        // Espacio entre los botones y el borde inferior
+        this.add(Box.createVerticalGlue());
     }
 
     private JPanel createImagePanel(JLabel imageLabel) {
@@ -1863,51 +2041,74 @@ public class VentanaCajasLetras extends JFrame {
 
         return label;
     }
+
     private JPanel createImagePanelWithButton(JLabel imageLabel, JButton addToCartButton) {
         JPanel panel = new JPanel();
-        panel.setBackground(new Color(0, 51, 102));  // Agrega esta línea para establecer el fondo blanco
+        panel.setBackground(new Color(0, 51, 102));
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.add(addToCartButton);
-        panel.add(Box.createHorizontalStrut(10)); // Espacio entre el botón y la imagen
+        panel.add(Box.createHorizontalStrut(10));
         panel.add(imageLabel);
 
         return panel;
     }
-
 }
 
 public class VentanaCajasPersonalizadas extends JFrame {
     private CarritoDeCompras carrito;
 
     public VentanaCajasPersonalizadas() {
-    	super("Libretas");
-        this.setSize(900, 700);
+        super("Cajas Personalizadas");
+        this.setSize(900, 720);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setBackground(new Color(0, 51, 102));
-        this.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        this.setLayout(new BorderLayout()); // Cambiar el layout a BorderLayout para organizar los elementos más fácilmente
 
         carrito = new CarritoDeCompras();
 
+        // Crear el panel de botones en la parte superior derecha
+        JPanel menuPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton botonMenuPrincipal = new JButton("Menú Principal");
+        botonMenuPrincipal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Sistema sistema2 = new Sistema();
+                sistema2.setVisible(true);
+                dispose();
+            }
+        });
+        menuPanel.add(botonMenuPrincipal);
+        this.add(menuPanel, BorderLayout.NORTH); // Agregar el panel de botones en la parte norte
+
+        // Crear el panel central con las cajas personalizadas
+        JPanel centralPanel = new JPanel();
+        centralPanel.setLayout(new BoxLayout(centralPanel, BoxLayout.Y_AXIS));
+        centralPanel.setBackground(new Color(0, 51, 102)); // Establecer color de fondo del panel central
+
+        // Crear los elementos de la ventana
         JLabel labelKitty = createImageLabel("media/cajaKitty.jpg");
         JButton botonKitty = createAddToCartButton("Caja de Hello Kitty", 25.0);
-        this.add(createImagePanelWithButton(labelKitty, botonKitty));
+        centralPanel.add(createImagePanelWithButton(labelKitty, botonKitty));
+        centralPanel.add(Box.createVerticalStrut(10));
 
-        this.add(Box.createVerticalStrut(10)); 
-
-        JLabel labelMario= createImageLabel("media/cajaMario.jpg");
+        JLabel labelMario = createImageLabel("media/cajaMario.jpg");
         JButton botonMario = createAddToCartButton("Caja de Mario Bros", 25.0);
-        this.add(createImagePanelWithButton(labelMario, botonMario));
-
-        this.add(Box.createVerticalStrut(10)); 
+        centralPanel.add(createImagePanelWithButton(labelMario, botonMario));
+        centralPanel.add(Box.createVerticalStrut(10));
 
         JLabel labelRM = createImageLabel("media/cajaRM.jpg");
         JButton botonRM = createAddToCartButton("Caja de Rick y Morty", 15.0);
-        this.add(createImagePanelWithButton(labelRM, botonRM));
-        
-      
-        
+        centralPanel.add(createImagePanelWithButton(labelRM, botonRM));
+
+        JScrollPane scrollPane = new JScrollPane(centralPanel); // Agregar un JScrollPane para manejar el desplazamiento si es necesario
+        this.add(scrollPane, BorderLayout.CENTER); // Agregar el panel central en el centro
+
+        // Crear el panel de botones en la parte inferior
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        bottomPanel.setBackground(new Color(0, 51, 102)); // Establecer color de fondo del panel de botones
+
         JButton botonPagar = new JButton("Ver carrito");
         botonPagar.setBackground(Color.WHITE);
         botonPagar.addActionListener(new ActionListener() {
@@ -1916,20 +2117,21 @@ public class VentanaCajasPersonalizadas extends JFrame {
                 carrito.mostrarCarrito();
             }
         });
-        this.add(botonPagar);
-        
+        bottomPanel.add(botonPagar);
+
         JButton botonMenu = new JButton("Menú");
         botonMenu.setBackground(Color.WHITE);
         botonMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
                 Sistema.VentanaCatalogo ventanaCatalogo = new Sistema.VentanaCatalogo();
-				ventanaCatalogo.setVisible(true);
-				dispose();
+                ventanaCatalogo.setVisible(true);
+                dispose();
             }
         });
-        this.add(botonMenu);
+        bottomPanel.add(botonMenu);
+
+        this.add(bottomPanel, BorderLayout.SOUTH); // Agregar el panel de botones en la parte sur
     }
 
     private JLabel createImageLabel(String imagePath) {
@@ -1964,11 +2166,9 @@ public class VentanaCajasPersonalizadas extends JFrame {
         return button;
     }
 
-
-
     private JPanel createImagePanelWithButton(JLabel imageLabel, JButton addToCartButton) {
         JPanel panel = new JPanel();
-        panel.setBackground(new Color(0, 51, 102));  // Agrega esta línea para establecer el fondo blanco
+        panel.setBackground(new Color(0, 51, 102));  // Establecer color de fondo del panel
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.add(addToCartButton);
@@ -1977,9 +2177,8 @@ public class VentanaCajasPersonalizadas extends JFrame {
 
         return panel;
     }
-
 }
-
+	   
 class CatalogoProductosWindow extends VentanaBase {
     private Sistema sistema;
     private List<String> listaProductos;
